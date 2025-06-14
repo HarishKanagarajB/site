@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f2f2f2;
+  --foreground: #171717;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.banner {
+  position: relative; 
+}
+.swiper-button-prev,
+.swiper-button-next {
+  color: black !important;
+  width: 30px !important;
+  height: 60px !important;
+  background-color: #bfbfbf;
+ 
+ 
+}
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+  display:none;
+}
+
+.banner:hover .swiper-button-prev,
+.banner:hover .swiper-button-next {
+  opacity: .8; 
+}
+.banner .swiper-pagination{
+  display:none;
+} 
+
+
+.testimonals {
+  position: relative;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  color: black !important;
+  width: 30px !important;
+  height: 60px !important;
+  background-color: #bfbfbf;
+  opacity: 0;
+ 
+}
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+  display:none;
+}
+
+.testimonals:hover .swiper-button-prev,
+.testimonals:hover .swiper-button-next {
+  opacity: .2; 
+}
+.testimonals .swiper-pagination{
+  display:none;
+} 
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  content: '\2190';
+  font-size: 25px !important;
+  font-weight: bolder !important;
+  color: gray;
+ 
+}
+.portfolio {
+  position: relative;
+}
+.portfolio .swiper-button-prev,
+.portfolio .swiper-button-next {
+  display: none;
+}
+.portfolio .swiper-pagination {
+  text-align: right !important;
+  bottom: var(--swiper-pagination-bottom, auto) !important;
+    top: var(--swiper-pagination-top, 10px) !important;
+ 
+}
+.portfolio .swiper-pagination-bullet {
+  width: 13px !important;
+  height: 13px !important;
+}
+.image-gallery .swiper-pagination-bullet-active{
+  background-color: #DE8A03;
+}
+.wp-content ul,
+.wp-content ol {
+  list-style: revert;
+  margin: revert;
+  padding: revert;
+}
+
+.wp-content li {
+  margin: revert;
+  padding: revert;
+}
+.wp-description p {
+  margin:revert;
+  padding:revert
+}
+
+

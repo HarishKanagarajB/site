@@ -1,21 +1,17 @@
 "use client";
 import Image from "next/image";
 import { Suspense, useEffect, useState } from "react";
-import AxiosInstance from "../utils/axiosInstance";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useSearchParams } from "next/navigation";
 
-export default function Contactclient() {
-  const contactFormUrl = process.env.NEXT_PUBLIC_CONTACT_FORM;
-  if (!contactFormUrl) {
-    throw new Error("Contact form URL is not defined.");
-  }
+interface ContactclientProps {
+  settingsData: any;
+}
 
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export default function Contactclient({ settingsData }: ContactclientProps) {
   const searchParams = useSearchParams();
   const [subject, setSubject] = useState<string | null>(null);
+
   useEffect(() => {
     const subjectParam = searchParams.get("subject");
     if (subjectParam) {
@@ -26,26 +22,14 @@ export default function Contactclient() {
       }));
     }
   }, [searchParams]);
-  useEffect(() => {
-    AxiosInstance.get("settings/84")
-      .then((response) => {
-        setData(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setLoading(false);
-      });
-  }, []);
+
+  const contactFormUrl = process.env.NEXT_PUBLIC_CONTACT_FORM;
+  if (!contactFormUrl) {
+    throw new Error("Contact form URL is not defined.");
+  }
+
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
-  const [formData, setFormData] = useState<{
-    name: string;
-    email: string;
-    phone: string;
-    company: string;
-    message: string;
-    subject: string;
-  }>({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
@@ -58,39 +42,23 @@ export default function Contactclient() {
   const [responseMessage, setResponseMessage] = useState("");
   const [responseType, setResponseType] = useState("success");
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
   const validateForm = () => {
     const { name, email, phone, message, subject } = formData;
-    if (!name || !email || !phone || !message || !subject) {
-      return "All fields are required.";
-    }
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      return "Please enter a valid email address.";
-    }
-    if (!/^\d{10}$/.test(phone)) {
-      return "Please enter a valid 10-digit phone number.";
-    }
-    if (!recaptchaValue) {
-      return "Please verify that you are not a robot.";
-    }
+    if (!name || !email || !phone || !message || !subject) return "All fields are required.";
+    if (!/^\S+@\S+\.\S+$/.test(email)) return "Please enter a valid email address.";
+    if (!/^\d{10}$/.test(phone)) return "Please enter a valid 10-digit phone number.";
+    if (!recaptchaValue) return "Please verify that you are not a robot.";
     return null;
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
+  const handleChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    // Validate form
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const errorMessage = validateForm();
     if (errorMessage) {
       setResponseMessage(errorMessage);
@@ -100,14 +68,8 @@ export default function Contactclient() {
     }
 
     setIsSubmitting(true);
-
     const form = new FormData();
-    form.append("name", formData.name);
-    form.append("email", formData.email);
-    form.append("phone", formData.phone);
-    form.append("company", formData.company);
-    form.append("message", formData.message);
-    form.append("subject", formData.subject);
+    Object.entries(formData).forEach(([key, value]) => form.append(key, value));
 
     try {
       const response = await fetch(contactFormUrl, {
@@ -115,28 +77,13 @@ export default function Contactclient() {
         body: form,
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-      if (response.ok) {
-        setResponseMessage("Data submitted successfully!");
-        setResponseType("success");
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          company: "",
-          message: "",
-          subject: "",
-        });
-        setIsFormSubmitted(true);
-      } else {
-        setResponseMessage("Failed to submit the form. Please try again.");
-        setResponseType("error");
-      }
+      setResponseMessage("Data submitted successfully!");
+      setResponseType("success");
+      setFormData({ name: "", email: "", phone: "", company: "", message: "", subject: "" });
+      setIsFormSubmitted(true);
     } catch (error) {
-      console.error("Error:", error);
       setResponseMessage("An error occurred while submitting the form.");
       setResponseType("error");
     } finally {
@@ -144,30 +91,31 @@ export default function Contactclient() {
       removeResponseMessageAfterDelay();
     }
   };
+
   const removeResponseMessageAfterDelay = () => {
     setTimeout(() => setResponseMessage(""), 2000);
   };
+
   const handleRecaptchaChange = (value: string | null) => {
     setRecaptchaValue(value);
   };
 
   return (
-    <Suspense>
-      <section className="title-block sm:mb-4 pt-20 sm:pt-28  max-w-6xl sm:mx-auto mx-0">
-        <div className="text-center sm:pt-8 py-5">
-          <h1
-            className="sm:text-3xl text-lg m-0 font-bold relative pb-3 inline-block "
-            style={{
-              backgroundImage: "url('/images/icons/three-dot.png')",
-              backgroundSize: "43px 9px",
-              backgroundPosition: "50% 46px",
-              backgroundRepeat: "no-repeat",
-              padding: "0 0 30px 0",
-            }}
-          >
-            CONTACT
-          </h1>
-        </div>
+    <section className="pt-20 sm:pt-28 max-w-6xl mx-auto">
+      <div className="text-center py-5">
+        <h1
+          className="sm:text-3xl text-lg font-bold pb-3 inline-block"
+          style={{
+            backgroundImage: "url('/images/icons/three-dot.png')",
+            backgroundSize: "43px 9px",
+            backgroundPosition: "50% 46px",
+            backgroundRepeat: "no-repeat",
+            paddingBottom: "30px",
+          }}
+        >
+          CONTACT
+        </h1>
+      </div>
 
         <div className="container bg-white py-16 shadow-md mx-auto px-4 sm:px-6 md:px-12">
           <form
@@ -451,7 +399,7 @@ export default function Contactclient() {
           </form>
         </div>
         <div className="sm:p-12 p-8 sm:mb-14 sm:h-60 container contact-content bg-[#67bcdb] bg-[url('/images/banner/blue-pattern.jpg')] bg-right bg-no-repeat bg-cover mx-auto sm:px-16">
-          {data && (
+          {settingsData && (
             <div className="flex flex-col lg:flex-row gap-12">
               <div className="lg:w-1/2">
                 <h3 className="text-white font-bold mb-4 flex items-center">
@@ -472,7 +420,7 @@ export default function Contactclient() {
                   </a>
                 </h3>
                 <p className="text-white text-sm font-normal mb-4">
-                  {data.acf.address_india}
+                  {settingsData.acf.address_india}
                 </p>
                 <div className="flex items-center mb-4">
                   <Image
@@ -483,7 +431,7 @@ export default function Contactclient() {
                     height={16}
                   />
                   <a className="text-white text-sm" href="tel:+917837838747">
-                    {data.acf.contact_number_india}
+                    {settingsData.acf.contact_number_india}
                   </a>
                   <a
                     target="_blank"
@@ -505,7 +453,7 @@ export default function Contactclient() {
                     className="text-white text-sm"
                     href="mailto:info@usistech.com"
                   >
-                    {data.acf.email_india}
+                    {settingsData.acf.email_india}
                   </a>
                 </div>
               </div>
@@ -513,7 +461,7 @@ export default function Contactclient() {
               <div className="lg:w-1/2">
                 <h3 className="text-white font-bold mb-4">UK (Sales)</h3>
                 <p className="text-white text-sm font-normal mb-4">
-                  {data.acf.address_uk}
+                  {settingsData.acf.address_uk}
                 </p>
                 <div className="flex items-center">
                   <Image
@@ -527,7 +475,7 @@ export default function Contactclient() {
                     className="text-white text-sm"
                     href="mailto:info@usistech.co.uk"
                   >
-                    {data.acf.email_uk}
+                    {settingsData.acf.email_uk}
                   </a>
                 </div>
               </div>
@@ -535,6 +483,5 @@ export default function Contactclient() {
           )}
         </div>
       </section>
-    </Suspense>
   );
 }

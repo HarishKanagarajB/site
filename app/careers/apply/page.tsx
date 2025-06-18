@@ -1,6 +1,16 @@
-import Careers from "@/app/components/Applyclient";
+import ApplyClient from "@/app/components/Applyclient";
+import Applyclient from "@/app/components/Applyclient";
+import AxiosInstance from "@/app/utils/axiosInstance";
 
+export const dynamic = "force-static"; // force SSG even if dynamic content
 
-export default function ContactPage() {
-  return <Careers />;
+async function getCareerData() {
+  const res = await AxiosInstance.get("career/");
+  return res.data;
+}
+
+export default async function ContactPage() {
+  const careers = await getCareerData();
+
+  return <ApplyClient careers={careers} />;
 }

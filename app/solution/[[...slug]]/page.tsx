@@ -1,7 +1,6 @@
 import AxiosInstance from "@/app/utils/axiosInstance";
 import Image from "next/image";
 import Link from "next/link";
-
 interface Expertise {
   image_name_: string;
   title: string;
@@ -10,7 +9,6 @@ interface Expertise {
     url: string;
   };
 }
-
 interface Solution {
   title?: {
     rendered?: string;
@@ -22,9 +20,8 @@ interface Solution {
     expertise?: Expertise[];
   };
 }
-
 interface PageProps {
-  params: Promise<{ slug?: string[] }>; 
+  params: { slug?: string[] }; 
 }
 
 async function getSolution(slug: string[]): Promise<Solution | null> {
@@ -33,28 +30,33 @@ async function getSolution(slug: string[]): Promise<Solution | null> {
     return Array.isArray(response.data) && response.data.length > 0
       ? response.data[0]
       : null;
-  } catch (err) {
+  } catch (error) {
     return null;
   }
 }
 
 
-export default async function SolutionDetailPage(props: PageProps) {
-  const { slug = [] } = await props.params; 
+export default async function SolutionDetail({
+  params,
+}: {
+  params: Promise<{ slug?: string[] }>;
+}) {
+  const { slug = [] } = await params; 
   const solution = await getSolution(slug);
 
+
   if (!solution) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <Image
-          className="mx-auto"
-          src="/images/banner/error-banner.png"
-          width={400}
-          height={499}
-          alt="Error 404"
-        />
-      </div>
-    );
+     return (
+         <div className="flex justify-center items-center min-h-screen">
+           <Image
+             className="mx-auto"
+             src="/images/banner/error-banner.png"
+             width={400}
+             height={499}
+             alt="Error 404"
+           />
+         </div>
+       );
   }
 
   return (
@@ -77,6 +79,7 @@ export default async function SolutionDetailPage(props: PageProps) {
             {solution?.title?.rendered}
           </h1>
         </div>
+
         <div className="bg-white shadow-md p-4">
           <div
             className="sm:text-base text-sm leading-[1.5] text-center max-w-4xl mx-auto wp-description"
@@ -92,7 +95,7 @@ export default async function SolutionDetailPage(props: PageProps) {
           {solution?.acf?.expertise?.map((item, index) => (
             <div
               key={index}
-              className="single-services bg-white h-full flex flex-col shadow-md hover:shadow-lg transition"
+              className="single-solutions bg-white h-full flex flex-col shadow-md hover:shadow-lg transition"
             >
               <div className="p-6 flex-1">
                 <div className="case-logo mb-6 flex justify-start">
@@ -100,7 +103,7 @@ export default async function SolutionDetailPage(props: PageProps) {
                     src={`/images/thumbnail/solutions/${item.image_name_}`}
                     width={80}
                     height={80}
-                    alt="Thumbnail"
+                    alt={item.title}
                   />
                 </div>
                 <h3 className="text-lg text-left font-bold text-black mb-2">
@@ -120,3 +123,19 @@ export default async function SolutionDetailPage(props: PageProps) {
     </div>
   );
 }
+
+
+export async function generateStaticParams() {
+  try {
+    const res = await AxiosInstance.get("solution-v2");
+    const allSolutions = res.data;
+
+    return allSolutions.map((item: any) => ({
+      slug: item.slug.split("/"), 
+    }));
+  } catch (error) {
+    return [];
+  }
+}
+
+

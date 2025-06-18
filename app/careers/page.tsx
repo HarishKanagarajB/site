@@ -98,9 +98,9 @@ export default async function CareersPage() {
                   <Link href={`/career/${job.slug}`}>
                     <div className="w-full border p-5 h-full flex flex-col justify-between hover:shadow-md transition-shadow duration-200">
                       <div>
-                        <div className="mb-4 font-semibold text-lg pr-5">
-                          {job.title.rendered}
-                        </div>
+                        <div className="mb-4 font-semibold text-lg pr-5"
+                          dangerouslySetInnerHTML={{ __html: job.title.rendered }}
+                        ></div>
 
                         <div className="mb-4 pr-5 flex flex-wrap gap-3">
                           <div

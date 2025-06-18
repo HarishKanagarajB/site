@@ -94,8 +94,10 @@ export default async function CareerDetail({
                 backgroundRepeat: "no-repeat",
                 padding: "0 0 36px 0",
               }}
+              dangerouslySetInnerHTML={{
+                __html: career ? career.title.rendered : "Career not found",
+              }}
             >
-              {career ? career.title.rendered : "Career not found"}
             </h1>
           </div>
 
@@ -123,7 +125,7 @@ export default async function CareerDetail({
                   <div className="text-left bg-[rgba(242,242,242,0.58)] p-6 mx-5 sm:m-[0_20px_30px_0] mt-6">
                     <div className="flex items-center pb-5">
                       <div className="font-semibold text-sm text-gray-700 uppercase w-28">Role</div>
-                      <div className="text-gray-800 text-sm">{career.title.rendered}</div>
+                      <div className="text-gray-800 text-sm" dangerouslySetInnerHTML={{ __html: career.title.rendered }}></div>
                     </div>
 
                     <div className="flex items-center pb-5">

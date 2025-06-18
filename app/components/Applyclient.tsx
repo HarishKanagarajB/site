@@ -375,8 +375,7 @@ export default function Careers() {
                     >
                       <option value="">Select a Role</option>
                       {data.map((role: any) => (
-                        <option key={role.id} value={role.title.rendered}>
-                          {role.title.rendered}
+                        <option key={role.id} value={role.title.rendered} dangerouslySetInnerHTML={{ __html: role.title.rendered }}>
                         </option>
                       ))}
                       <option value="Other">Other</option>

@@ -76,7 +76,7 @@ export default async function ServicePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
               {services.map((item: any) => (
                 <div key={item.id} className="single-services bg-white hover:shadow-lg h-full flex flex-col border-[0.1px] border-gray-200">
-                  <Link href={`/service/${item.slug}`}>
+                  <Link href={`/service/${item.slug}`  as const}>
                     <div className="p-6 flex-1">
                       <div className="case-logo mb-6 justify-start">
                         {item?.acf?.image_name_ && (

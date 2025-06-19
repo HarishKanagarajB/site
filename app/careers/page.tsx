@@ -153,7 +153,18 @@ export default async function CareersPage() {
               ))}
             </div>
           )}
+
+          <div className="flex justify-end">
+            <Link href="/careers/apply">
+              <button className="bg-[#67bcdb] text-white mt-10 px-8 py-4 hover:bg-blue-600">
+                Apply Now
+              </button>
+            </Link>
+          </div>
+
         </div>
+
+
       </div>
     </>
   );

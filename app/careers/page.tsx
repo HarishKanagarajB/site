@@ -26,7 +26,6 @@ export default async function CareersPage() {
       .replace(/"/g, "'"),
     experienceRequirements: job?.acf?.experience || "",
     url: `https://usistech.com/career/${job.slug}`,
-    logo: "https://usistech.com/images/logo/logo.png",
     jobLocation: {
       "@type": "Place",
       address: {

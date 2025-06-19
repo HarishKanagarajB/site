@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 interface ApplyClientProps {
-  careers: any[]; // Ideally, replace 'any' with proper type from your API
+  careers: any[]; 
 }
 
 export default function ApplyClient({ careers }: ApplyClientProps) {

@@ -3,7 +3,6 @@ import Link from "next/link";
 import Script from "next/script";
 import AxiosInstance from "../utils/axiosInstance";
 
-
 async function getCareerListings() {
   try {
     const response = await AxiosInstance.get("career");
@@ -13,6 +12,37 @@ async function getCareerListings() {
     return { data: [], error: error.message };
   }
 }
+
+// Format to YYYY-MM-DD
+const formatDate = (inputDate: string) => {
+  const date = new Date(inputDate);
+  return date.toISOString().split("T")[0];
+};
+
+// Normalize experience text
+const normalizeExperience = (exp: string | undefined): string => {
+  if (!exp) return "";
+
+  const cleaned = exp.toLowerCase().trim();
+
+  if (cleaned.includes("fresher") || cleaned.includes("freaher")) {
+    return "No experience required";
+  }
+
+  if (cleaned.includes("months")) {
+    const match = cleaned.match(/(\d+)\s*[-to]+\s*(\d+)/);
+    if (match) {
+      return `${match[1]} to ${match[2]} months experience`;
+    }
+    return `${cleaned.replace(/[^0-9\-]/g, "").replace("-", " to ")} months experience`;
+  }
+
+  if (cleaned.includes("year") || cleaned.includes("years") || cleaned.includes("+")) {
+    return `Minimum ${cleaned.replace("+", "").replace("years", "").replace("year", "").trim()} year experience`;
+  }
+
+  return `Minimum ${cleaned} experience`;
+};
 
 export default async function CareersPage() {
   const { data, error } = await getCareerListings();
@@ -24,15 +54,28 @@ export default async function CareersPage() {
     description: (job?.acf?.job_description || "")
       .replace(/<[^>]+>/g, "")
       .replace(/"/g, "'"),
-    experienceRequirements: job?.acf?.experience || "",
+    datePosted: formatDate(job?.date),
+    validThrough: job?.acf?.valid_through || "2025-12-31T23:59",
+    employmentType: job?.acf?.employment_type?.toUpperCase() || "FULL_TIME",
+    experienceRequirements: normalizeExperience(job?.acf?.experience),
+    identifier: {
+      "@type": "PropertyValue",
+      name: "uSiS Technologies",
+      value: job?.id?.toString() || "N/A",
+    },
     url: `https://usistech.com/career/${job.slug}`,
     jobLocation: {
       "@type": "Place",
       address: {
         "@type": "PostalAddress",
+        streetAddress: job?.acf?.street_address || "Default Street",
         addressLocality: job?.acf?.location || "Coimbatore",
         addressRegion: "Tamil Nadu",
-        addressCountry: "India",
+        postalCode: job?.acf?.postal_code || "641001",
+        addressCountry: {
+          "@type": "Country",
+          name: "India",
+        },
       },
     },
     hiringOrganization: {
@@ -97,8 +140,11 @@ export default async function CareersPage() {
                   <Link href={`/career/${job.slug}`}>
                     <div className="w-full border p-5 h-full flex flex-col justify-between hover:shadow-md transition-shadow duration-200">
                       <div>
-                        <div className="mb-4 font-semibold text-lg pr-5"
-                          dangerouslySetInnerHTML={{ __html: job.title.rendered }}
+                        <div
+                          className="mb-4 font-semibold text-lg pr-5"
+                          dangerouslySetInnerHTML={{
+                            __html: job.title.rendered,
+                          }}
                         ></div>
 
                         <div className="mb-4 pr-5 flex flex-wrap gap-3">
@@ -160,10 +206,7 @@ export default async function CareersPage() {
               </button>
             </Link>
           </div>
-
         </div>
-
-
       </div>
     </>
   );

@@ -50,7 +50,6 @@ export default async function CareerDetail({
     description: career.content.rendered.replace(/<[^>]+>/g, "").replace(/"/g, "'"),
     experienceRequirements: career.acf.experience,
     url: `https://usistech.com/career/${career.slug}`,
-    logo: "https://usistech.com/images/logo/logo.png",
     jobLocation: {
       "@type": "Place",
       address: {

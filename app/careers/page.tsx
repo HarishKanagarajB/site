@@ -29,20 +29,23 @@ const normalizeExperience = (exp: string | undefined): string => {
     return "No experience required";
   }
 
-  if (cleaned.includes("months")) {
+  if (cleaned.includes("month")) {
     const match = cleaned.match(/(\d+)\s*[-to]+\s*(\d+)/);
     if (match) {
-      return `${match[1]} to ${match[2]} months experience`;
+      return `${match[1]} to ${match[2]} months of experience preferred`;
     }
-    return `${cleaned.replace(/[^0-9\-]/g, "").replace("-", " to ")} months experience`;
+    return `${cleaned.replace(/[^0-9\-]/g, "").replace("-", " to ")} months of experience preferred`;
   }
 
-  if (cleaned.includes("year") || cleaned.includes("years") || cleaned.includes("+")) {
-    return `Minimum ${cleaned.replace("+", "").replace("years", "").replace("year", "").trim()} year experience`;
+  const yearsMatch = cleaned.match(/\d+/);
+  if (yearsMatch) {
+    const years = yearsMatch[0];
+    return `Minimum ${years} year${years === "1" ? "" : "s"} of experience required`;
   }
 
-  return `Minimum ${cleaned} experience`;
+  return "Experience requirements not specified";
 };
+
 
 export default async function CareersPage() {
   const { data, error } = await getCareerListings();
@@ -55,7 +58,7 @@ export default async function CareersPage() {
       .replace(/<[^>]+>/g, "")
       .replace(/"/g, "'"),
     datePosted: formatDate(job?.date),
-    validThrough: job?.acf?.valid_through || "2025-12-31T23:59",
+    // validThrough: job?.acf?.valid_through || "2025-12-31T23:59",
     employmentType: job?.acf?.employment_type?.toUpperCase() || "FULL_TIME",
     experienceRequirements: normalizeExperience(job?.acf?.experience),
     identifier: {

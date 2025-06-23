@@ -60,7 +60,7 @@ export default async function CareersPage() {
     datePosted: formatDate(job?.date),
     // validThrough: job?.acf?.valid_through || "2025-12-31T23:59",
     employmentType: job?.acf?.employment_type?.toUpperCase() || "FULL_TIME",
-    experienceRequirements: normalizeExperience(job?.acf?.experience),
+    experienceRequirements: `${normalizeExperience(job?.acf?.experience)} in ${job?.title?.rendered}`,
     identifier: {
       "@type": "PropertyValue",
       name: "uSiS Technologies",
@@ -74,7 +74,7 @@ export default async function CareersPage() {
         streetAddress: job?.acf?.street_address || "Default Street",
         addressLocality: job?.acf?.location || "Coimbatore",
         addressRegion: "Tamil Nadu",
-        postalCode: job?.acf?.postal_code || "641001",
+        postalCode: job?.acf?.postal_code || "641017",
         addressCountry: {
           "@type": "Country",
           name: "India",

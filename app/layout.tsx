@@ -74,10 +74,7 @@ export default function RootLayout({
       addressLocality: "Coimbatore",
       addressRegion: "Tamil Nadu",
       postalCode: "641017",
-      addressCountry: {
-      "@type": "Country",
-      "name": "India"
-    }
+      addressCountry: "IN"
     },
     sameAs: ["https://www.linkedin.com/company/usis-technologies"],
   };

@@ -1,6 +1,38 @@
 import Image from "next/image";
 import Link from "next/link";
 import AxiosInstance from "../utils/axiosInstance";
+import Script from "next/script";
+
+const generateServiceSchema = (services: any[]) =>
+  services.map((service: any) => ({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": service?.title?.rendered || "",
+    "description": service?.excerpt?.rendered.replace(/<[^>]+>/g, "") || "",
+    "serviceType": service?.acf?.category || "IT Services",
+    "provider": {
+      "@type": "Organization",
+      "name": "uSiS Technologies",
+      "url": "https://usistech.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://usistech.com/images/logo/logo.png"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "2nd Floor, Site 30 & 31, Thiru Senthil Nagar",
+        "addressLocality": "Coimbatore",
+        "addressRegion": "Tamil Nadu",
+        "postalCode": "641017",
+        "addressCountry": "IN"
+      }
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "India"
+    },
+    "url": `https://usistech.com/service/${service.slug}`
+  }));
 
 async function getServices() {
   try {
@@ -52,7 +84,17 @@ export default async function ServicePage() {
 
   return (
     <>
-    
+    {services.length > 0 &&
+  generateServiceSchema(services).map((schema, index) => (
+    <Script
+      key={`service-schema-${index}`}
+      id={`service-schema-${index}`}
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  ))}
+
         <div className="max-w-6xl sm:mx-auto mx-0">
           <section className="title-block pt-24 mb-6 sm:pt-28">
             <div className="text-center sm:pt-8 py-0">

@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Metadata } from "next";
 import Link from "next/link";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "About uSiS Technologies",
@@ -26,13 +27,51 @@ export const metadata: Metadata = {
     images: "https://usistech.com/images/banner/poster.png",
   },
   alternates: {
-    canonical:"https://usistech.com/about"
+    canonical: "https://usistech.com/about"
   }
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "uSiS Technologies Private Limited",
+  "legalName": "uSiS Technologies Private Limited",
+  "url": "https://usistech.com",
+  "logo": "https://usistech.com/images/logo/logo.png",
+  "foundingDate": "2007",
+  "description": "uSiS Technologies is a global IT consultancy & solutions provider based in Coimbatore, India. We offer scalable, agile, and customizable software services including web & mobile app development, eCommerce portals, and CMS.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "2nd Floor, Site 30 & 31, Thiru Senthil Nagar",
+    "addressLocality": "Coimbatore",
+    "addressRegion": "Tamil Nadu",
+    "postalCode": "641017",
+    "addressCountry": "IN"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+91 7837838747",
+    "contactType": "customer service",
+    "areaServed": "IN",
+    "availableLanguage": ["English", "Tamil"]
+  },
+  "sameAs": [
+    "https://www.linkedin.com/company/usis-technologies",
+    "https://www.facebook.com/usistech",
+    "https://www.instagram.com/usistech"
+  ]
 };
 
 export default function About() {
   return (
     <>
+      <Script
+        id="organization-schema"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+
       <section className="title-block pt-24 sm:pt-28">
         <div className="text-center sm:pt-8 pt-0 py-5">
           <h1
@@ -272,7 +311,7 @@ export default function About() {
                 width={62}
                 height={50}
                 alt="Request for proposal"
-                
+
               />
             </div>
             <div className="right-drop-block">

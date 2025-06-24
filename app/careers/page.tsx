@@ -214,21 +214,21 @@ export default async function CareersPage() {
               ))}
             </div>
           )}
-          <div
-            className="w-full border mt-6 p-5 h-full flex flex-col justify-between hover:shadow-md transition-shadow duration-200"
-            style={{ backgroundColor: "rgb(243, 243, 243)" }}
-          >
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-gray-700">
-                {/* Didn't find a role that fits? Apply here */}
-              </p>
-              <Link href="/careers/apply">
-                <button className="bg-[#67bcdb] text-white px-8 py-4 hover:bg-blue-600 text-sm">
-                  Apply Now
-                </button>
-              </Link>
-            </div>
-          </div>
+       <div
+  className="w-full border mt-6 p-5 h-full flex flex-col justify-between hover:shadow-md transition-shadow duration-200"
+  style={{ backgroundColor: "rgb(243, 243, 243)" }}
+>
+  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+    <p className="text-sm text-gray-700">
+      Don't see your ideal role? Apply generally and we'll be in touch when an opportunity matches
+    </p>
+    <Link href="/careers/apply" className="">
+      <button className="w-full sm:w-auto bg-[#67bcdb] text-white px-8 py-4 hover:bg-blue-600 text-sm">
+        Apply here
+      </button>
+    </Link>
+  </div>
+</div>
 
 
         </div>

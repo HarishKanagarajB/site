@@ -143,12 +143,18 @@ export default async function CareersPage() {
                   <Link href={`/career/${job.slug}`}>
                     <div className="w-full border p-5 h-full flex flex-col justify-between hover:shadow-md transition-shadow duration-200">
                       <div>
-                        <div
-                          className="mb-4 font-semibold text-lg pr-5"
-                          dangerouslySetInnerHTML={{
-                            __html: job.title.rendered,
-                          }}
-                        ></div>
+                        <div className="flex justify-between items-start mb-4 pr-5">
+                          <div
+                            className="font-semibold text-lg"
+                            dangerouslySetInnerHTML={{
+                              __html: job.title.rendered,
+                            }}
+                          />
+                          <button className="bg-[#67bcdb] text-white text-xs px-4 py-2 hover:bg-blue-600 hidden lg:inline-block ">
+                            Apply Now
+                          </button>
+
+                        </div>
 
                         <div className="mb-4 pr-5 flex flex-wrap gap-3">
                           <div
@@ -186,29 +192,45 @@ export default async function CareersPage() {
                           />
                         </div>
                       </div>
+                      <div className="flex justify-end mt-auto lg:hidden">
+                        <button className="bg-[#67bcdb] text-white text-xs px-4 py-2 hover:bg-blue-600">
+                          Apply Now
+                        </button>
+                      </div>
 
-                      <div className="flex justify-end mt-auto">
+
+                      {/* <div className="flex justify-end mt-auto">
                         <Image
                           src="/images/icons/career-arrow.png"
                           width={16}
                           height={16}
                           alt="Arrow icon"
                         />
-                      </div>
+                      </div> */}
+
                     </div>
                   </Link>
                 </div>
               ))}
             </div>
           )}
-
-          <div className="flex justify-end">
-            <Link href="/careers/apply">
-              <button className="bg-[#67bcdb] text-white mt-10 px-8 py-4 hover:bg-blue-600">
-                Apply Now
-              </button>
-            </Link>
+          <div
+            className="w-full border mt-6 p-5 h-full flex flex-col justify-between hover:shadow-md transition-shadow duration-200"
+            style={{ backgroundColor: "rgb(243, 243, 243)" }}
+          >
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-gray-700">
+                Didn't find a role that fits? Apply here
+              </p>
+              <Link href="/careers/apply">
+                <button className="bg-[#67bcdb] text-white px-8 py-4 hover:bg-blue-600 text-sm">
+                  Apply Now
+                </button>
+              </Link>
+            </div>
           </div>
+
+
         </div>
       </div>
     </>

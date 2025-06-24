@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import AxiosInstance from "../utils/axiosInstance";
-import Script from "next/script";
 
 async function getSolutions() {
   try {
@@ -57,38 +56,8 @@ export default async function SolutionsPage() {
       </div>
     );
   }
-const solutionSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "uSiS Technologies",
-  "url": "https://usistech.com/solutions",
-  "logo": "https://usistech.com/images/logo/logo.png",
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Solution Offerings",
-    "itemListElement": solutionV3.map((item: any) => ({
-      "@type": "Offer",
-      "itemOffered": {
-        "@type": "Service",
-        "name": item.title?.rendered || "",
-        "description": item.excerpt?.rendered
-          ?.replace(/<[^>]+>/g, "") // Remove HTML tags
-          ?.replace(/"/g, "'") || "",
-        "url": `https://usistech.com/solution/${item.slug}`
-      }
-    }))
-  }
-};
 
   return (
-    <>
-    <Script
-  id="solution-schema"
-  type="application/ld+json"
-  strategy="afterInteractive"
-  dangerouslySetInnerHTML={{ __html: JSON.stringify(solutionSchema) }}
-/>
-
     <div className="max-w-6xl sm:mx-auto mx-0">
       <section className="title-block pt-24 mb-6 sm:pt-28">
         <div className="text-center sm:pt-8 py-0">
@@ -190,6 +159,5 @@ const solutionSchema = {
         </section>
       </div>
     </div>
-    </>
   );
 }

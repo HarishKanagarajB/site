@@ -220,7 +220,7 @@ export default async function CareersPage() {
           >
             <div className="flex justify-between items-center">
               <p className="text-sm text-gray-700">
-                Didn't find a role that fits? Apply here
+                {/* Didn't find a role that fits? Apply here */}
               </p>
               <Link href="/careers/apply">
                 <button className="bg-[#67bcdb] text-white px-8 py-4 hover:bg-blue-600 text-sm">

@@ -2,12 +2,15 @@
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const [productOpen, setProductOpen] = useState(false);
+  const productRef = useRef<HTMLLIElement | null>(null);
+
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -16,6 +19,22 @@ export default function Navbar() {
   const closeMenu = () => {
     setMenuOpen(false);
   };
+  useEffect(() => {
+    function handleClickOutside(event: { target: any; }) {
+      if (
+        productRef.current &&
+        !productRef.current.contains(event.target)
+      ) {
+        setProductOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Scroll effect logic only for homepage
   useEffect(() => {
@@ -40,22 +59,21 @@ export default function Navbar() {
     <>
       <header
         className={`header-container fixed w-full sm:h-[100px] h-[75px] top-0 z-30 transition-all duration-300 flex items-center justify-between ${isHomePage
-            ? scrolled
-              ? "bg-white text-[#444444] shadow-lg" // On scroll, white background and dark text for home
-              : "bg-black bg-opacity-20 text-white" // If not scrolled, black background with opacity 20 and white text for home
-            : "bg-white text-black" // For other pages, white background and black text (no scroll effect)
+          ? scrolled
+            ? "bg-white text-[#444444] shadow-lg" // On scroll, white background and dark text for home
+            : "bg-black bg-opacity-20 text-white" // If not scrolled, black background with opacity 20 and white text for home
+          : "bg-white text-black" // For other pages, white background and black text (no scroll effect)
           }`}
       >
         <div className="max-w-6xl container mx-auto">
           <nav className="flex flex-wrap items-center justify-between w-full sm:py-4 md:py-2 md:px-0 px-4 text-lg text-gray-700">
-            <div>
+            <div className="flex items-center gap-2">
               <a href="/">
                 {isHomePage ? (
-                  // For the homepage
                   scrolled ? (
                     <Image
-                      className="object-contain object-left w-[230px] h-[41px] sm:w-[320px] sm:h-[80px]"
-                      src="/images/logo/logo.png" // Image after scrolling
+                      className="object-contain w-[210px] h-[41px] sm:w-[300px] sm:h-[80px]"
+                      src="/images/logo/logo.png"
                       alt="uSiS Technologies Logo"
                       width={300}
                       height={80}
@@ -63,27 +81,38 @@ export default function Navbar() {
                     />
                   ) : (
                     <Image
-                      className="object-contain object-left w-[230px] h-[41px] sm:w-[320px] sm:h-[80px]"
-                      src="/images/logo/logo-white.png" // Image before scrolling
+                      className="object-contain w-[210px] h-[41px] sm:w-[300px] sm:h-[80px]"
+                      src="/images/logo/logo-white.png"
                       alt="uSiS Technologies Logo"
-                      width={300}
-                      height={80}
+                      width={355}
+                      height={81}
                       priority
                     />
                   )
                 ) : (
-                  // For other pages
                   <Image
-                    className="object-contain object-left w-[230px] h-[41px] sm:w-[320px] sm:h-[80px]"
-                    src="/images/logo/logo.png" // Default logo on other pages
+                    className="object-contain w-[210px] h-[41px] sm:w-[300px] sm:h-[80px]"
+                    src="/images/logo/logo.png"
                     alt="uSiS Technologies Logo"
-                    width={300}
-                    height={80}
+                    width={355}
+                    height={81}
                     priority
                   />
                 )}
               </a>
+
+              <a href="/official-frappe-erpnext-partner">
+                <Image
+                  src="/images/logo/frappe_partner.png"
+                  alt="Frappe Partner"
+                  width={302}
+                  height={82}
+                  className="w-[80px] sm:w-[80px] h-auto flex-shrink-0"
+                  priority
+                />
+              </a>
             </div>
+
             <button
               id="menu-button"
               className="h-6 w-6 cursor-pointer md:hidden block"
@@ -139,10 +168,12 @@ export default function Navbar() {
                   <Link
                     onClick={closeMenu}
                     href="/"
-                    className={`font-bold text-md py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                        ? scrolled
-                          ? "text-[#444444] border-b-4 border-sky-400"
-                          : "md:text-white  border-b-4 border-sky-400"
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
+                      ? scrolled
+                        ? "text-[#444444] border-b-4 border-sky-400"
+                        : "md:text-white  border-b-4 border-sky-400"
+                      : pathname.startsWith("/official-frappe-erpnext-partner")
+                        ? "text-[#67bcdb] border-b-4 border-sky-400"
                         : "text-[#4c4a4a]"
                       } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
                   >
@@ -153,13 +184,13 @@ export default function Navbar() {
                   <Link
                     onClick={closeMenu}
                     href="/about"
-                    className={`font-bold text-md py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                        ? scrolled
-                          ? "text-[#444444]"
-                          : "md:text-white"
-                        : pathname.startsWith("/about")
-                          ? "text-[#67bcdb] border-b-4 border-sky-400"
-                          : "text-[#4c4a4a]"
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
+                      ? scrolled
+                        ? "text-[#444444]"
+                        : "md:text-white"
+                      : pathname.startsWith("/about")
+                        ? "text-[#67bcdb] border-b-4 border-sky-400"
+                        : "text-[#4c4a4a]"
                       } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
                   >
                     About
@@ -169,43 +200,96 @@ export default function Navbar() {
                   <Link
                     onClick={closeMenu}
                     href="/services"
-                    className={`font-bold text-md py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                        ? scrolled
-                          ? "text-[#444444]"
-                          : "md:text-white"
-                        : pathname.startsWith("/service")
-                          ? "text-[#67bcdb] border-b-4 border-sky-400"
-                          : "text-[#4c4a4a]"
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
+                      ? scrolled
+                        ? "text-[#444444]"
+                        : "md:text-white"
+                      : pathname.startsWith("/service")
+                        ? "text-[#67bcdb] border-b-4 border-sky-400"
+                        : "text-[#4c4a4a]"
                       } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
                   >
                     Services
                   </Link>
                 </li>
                 <li>
-  <Link
-    onClick={closeMenu}
-    href="/solutions"
-    className={`font-bold text-md py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${
-      isHomePage
-        ? scrolled
-          ? "text-[#444444]"
-          : "md:text-white"
-        : pathname.startsWith("/solution")
-        ? "text-[#67bcdb] border-b-4 border-sky-400"
-        : pathname.startsWith("/industry")
-        ? "text-[#4c4a4a] border-b-4 border-transparent"
-        : "text-[#4c4a4a]"
-    } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
-  >
-    Solutions
-  </Link>
-</li>
+                  <Link
+                    onClick={closeMenu}
+                    href="/solutions"
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
+                      ? scrolled
+                        ? "text-[#444444]"
+                        : "md:text-white"
+                      : pathname.startsWith("/solution")
+                        ? "text-[#67bcdb] border-b-4 border-sky-400"
+                        : pathname.startsWith("/industry")
+                          ? "text-[#4c4a4a] border-b-4 border-transparent"
+                          : "text-[#4c4a4a]"
+                      } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
+                  >
+                    Solutions
+                  </Link>
+                </li>
+                <li
+                  ref={productRef}
+                  className="relative flex items-center"
+                  onMouseEnter={() => setProductOpen(true)}
+                  onMouseLeave={() => setProductOpen(false)}
+                >
+                  <Link
+                    href="/products"
+                    onClick={closeMenu}
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-2 uppercase ${isHomePage
+                      ? scrolled
+                        ? "text-[#444444]"
+                        : "md:text-white"
+                      : pathname.startsWith("/products") ||
+                        pathname.startsWith("/product") ||
+                        pathname.startsWith("/product")
+                        ? "text-[#67bcdb] border-b-4 border-sky-400"
+                        : "text-[#4c4a4a]"
+                      }`}
+                  >
+                    Products
+                  </Link>
+
+                  {productOpen && (
+                    <ul className="absolute left-0 top-full w-48 bg-white shadow-lg z-50">
+                      <li>
+                        <Link
+                          href="/product/erpnext"
+                          onClick={() => {
+                            closeMenu();
+                            setProductOpen(false);
+                          }}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-100"
+                        >
+                          ERPNext
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/product/frappe-hr"
+                          onClick={() => {
+                            closeMenu();
+                            setProductOpen(false);
+                          }}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-100"
+                        >
+                          Frappe HR
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+
+
 
                 {/* <li>
                   <Link
                     onClick={closeMenu}
                     href="/casestudy"
-                    className={`font-bold text-md py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${
                       isHomePage
                         ? scrolled
                           ? "text-[#444444]"
@@ -222,13 +306,13 @@ export default function Navbar() {
                   <Link
                     onClick={closeMenu}
                     href="/careers"
-                    className={`font-bold text-md py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                        ? scrolled
-                          ? "text-[#444444]"
-                          : "md:text-white"
-                        : pathname.startsWith("/career")
-                          ? "text-[#67bcdb] border-b-4 border-sky-400"
-                          : "text-[#4c4a4a]"
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
+                      ? scrolled
+                        ? "text-[#444444]"
+                        : "md:text-white"
+                      : pathname.startsWith("/career")
+                        ? "text-[#67bcdb] border-b-4 border-sky-400"
+                        : "text-[#4c4a4a]"
                       } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
                   >
                     Careers
@@ -239,13 +323,13 @@ export default function Navbar() {
                   <Link
                     onClick={closeMenu}
                     href="/contact"
-                    className={`font-bold text-md py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                        ? scrolled
-                          ? "text-[#444444]"
-                          : "md:text-white"
-                        : pathname === "/contact"
-                          ? "text-[#67bcdb] border-b-4 border-sky-400"
-                          : "text-[#4c4a4a]"
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
+                      ? scrolled
+                        ? "text-[#444444]"
+                        : "md:text-white"
+                      : pathname === "/contact"
+                        ? "text-[#67bcdb] border-b-4 border-sky-400"
+                        : "text-[#4c4a4a]"
                       } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
                   >
                     Contact us

@@ -72,30 +72,30 @@ export default function Navbar() {
                 {isHomePage ? (
                   scrolled ? (
                     <Image
-                      className="object-contain w-[210px] h-[41px] sm:w-[300px] sm:h-[80px]"
+                      className="w-[210px] h-auto sm:w-[300px]"
                       src="/images/logo/logo.png"
                       alt="uSiS Technologies Logo"
                       width={300}
-                      height={80}
+                      height={50}
                       priority
                     />
                   ) : (
                     <Image
-                      className="object-contain w-[210px] h-[41px] sm:w-[300px] sm:h-[80px]"
+                      className="w-[210px] h-auto sm:w-[300px]"
                       src="/images/logo/logo-white.png"
                       alt="uSiS Technologies Logo"
                       width={355}
-                      height={81}
+                      height={50}
                       priority
                     />
                   )
                 ) : (
                   <Image
-                    className="object-contain w-[210px] h-[41px] sm:w-[300px] sm:h-[80px]"
+                    className="w-[210px] h-auto sm:w-[300px]"
                     src="/images/logo/logo.png"
                     alt="uSiS Technologies Logo"
                     width={355}
-                    height={81}
+                    height={50}
                     priority
                   />
                 )}

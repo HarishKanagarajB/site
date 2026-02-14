@@ -105,7 +105,7 @@ export default async function ProductPage() {
               </h1>
             </div>
           </section>
-          <div className="max-w-6xl sm:mx-auto mx-0 sm:p-8 p-4 shadow-md"
+          <div className="max-w-6xl sm:mx-auto mx-0 sm:p-8 p-4 shadow-md mb-14"
             style={{ backgroundColor: '#F9FAFB' }}
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">

@@ -101,7 +101,7 @@ export default function Navbar() {
                 )}
               </a>
 
-              <a href="/official-frappe-erpnext-partner">
+              {/* <a href="/official-frappe-erpnext-partner">
                 <Image
                   src="/images/logo/frappe_partner.png"
                   alt="Frappe Partner"
@@ -110,7 +110,7 @@ export default function Navbar() {
                   className="w-[80px] sm:w-[80px] h-auto flex-shrink-0"
                   priority
                 />
-              </a>
+              </a> */}
             </div>
 
             <button
@@ -239,7 +239,7 @@ export default function Navbar() {
                   <Link
                     href="/products"
                     onClick={closeMenu}
-                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-2 uppercase ${isHomePage
+                    className={`font-bold text-sm py-1 px-0 sm:pt-9 sm:pb-9 mx-2 uppercase ${isHomePage
                       ? scrolled
                         ? "text-[#444444]"
                         : "md:text-white"
@@ -335,6 +335,44 @@ export default function Navbar() {
                     Contact us
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/official-frappe-erpnext-partner"
+                    className="sm:pt-5 mx-4 block"
+                  >
+                    {isHomePage ? (
+                      scrolled ? (
+                        <Image
+                          src="/images/logo/erp_next2.png" 
+                          alt="ERP Partner"
+                          width={516}
+                          height={420}
+                          className="w-[80px] sm:w-[80px] h-auto flex-shrink-0"
+                          priority
+                        />
+                      ) : (
+                        <Image
+                          src="/images/logo/erp_next1.png"   
+                          alt="ERP Partner"
+                          width={516}
+                          height={420}
+                          className="w-[80px] sm:w-[80px] h-auto flex-shrink-0"
+                          priority
+                        />
+                      )
+                    ) : (
+                      <Image
+                        src="/images/logo/erp_next2.png"   
+                        alt="ERP Partner"
+                        width={516}
+                        height={420}
+                        className="w-[80px] sm:w-[80px] h-auto flex-shrink-0"
+                        priority
+                      />
+                    )}
+                  </Link>
+                </li>
+
               </ul>
             </div>
           </nav>

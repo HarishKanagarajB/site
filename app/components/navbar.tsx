@@ -101,18 +101,37 @@ export default function Navbar() {
                 )}
               </a>
 
-              {/* <a href="/official-frappe-erpnext-partner">
+              {isHomePage ? (
+                scrolled ? (
+                  <Image
+                    src="/images/logo/erp_next2.png"
+                    alt="ERP Partner"
+                    width={516}
+                    height={420}
+                    className="w-[80px] h-auto flex-shrink-0 lg:hidden"
+                    priority
+                  />
+                ) : (
+                  <Image
+                    src="/images/logo/erp_next1.png"
+                    alt="ERP Partner"
+                    width={516}
+                    height={420}
+                    className="w-[80px] h-auto flex-shrink-0 lg:hidden"
+                    priority
+                  />
+                )
+              ) : (
                 <Image
-                  src="/images/logo/frappe_partner.png"
-                  alt="Frappe Partner"
-                  width={302}
-                  height={82}
-                  className="w-[80px] sm:w-[80px] h-auto flex-shrink-0"
+                  src="/images/logo/erp_next2.png"
+                  alt="ERP Partner"
+                  width={516}
+                  height={420}
+                  className="w-[80px] h-auto flex-shrink-0 lg:hidden"
                   priority
                 />
-              </a> */}
+              )}
             </div>
-
             <button
               id="menu-button"
               className="h-6 w-6 cursor-pointer md:hidden block"
@@ -335,7 +354,7 @@ export default function Navbar() {
                     Contact us
                   </Link>
                 </li>
-                <li>
+                <li className="hidden lg:block">
                   <Link
                     href="/official-frappe-erpnext-partner"
                     className="sm:pt-5 mx-4 block"
@@ -343,7 +362,7 @@ export default function Navbar() {
                     {isHomePage ? (
                       scrolled ? (
                         <Image
-                          src="/images/logo/erp_next2.png" 
+                          src="/images/logo/erp_next2.png"
                           alt="ERP Partner"
                           width={516}
                           height={420}
@@ -352,7 +371,7 @@ export default function Navbar() {
                         />
                       ) : (
                         <Image
-                          src="/images/logo/erp_next1.png"   
+                          src="/images/logo/erp_next1.png"
                           alt="ERP Partner"
                           width={516}
                           height={420}
@@ -362,7 +381,7 @@ export default function Navbar() {
                       )
                     ) : (
                       <Image
-                        src="/images/logo/erp_next2.png"   
+                        src="/images/logo/erp_next2.png"
                         alt="ERP Partner"
                         width={516}
                         height={420}

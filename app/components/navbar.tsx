@@ -78,13 +78,21 @@ export default function Navbar() {
                       width={300}
                       height={50}
                       priority
-                    />
+                    />                     
                   ) : (
+                    // <Image
+                    //   className="w-[210px] h-auto sm:w-[300px]"
+                    //   src="/images/logo/logo-white.png"
+                    //   alt="uSiS Technologies Logo"
+                    //   width={355}
+                    //   height={50}
+                    //   priority
+                    // />
                     <Image
                       className="w-[210px] h-auto sm:w-[300px]"
-                      src="/images/logo/logo-white.png"
+                      src="/images/logo/Usis-ramadan.gif"
                       alt="uSiS Technologies Logo"
-                      width={355}
+                      width={300}
                       height={50}
                       priority
                     />
@@ -104,7 +112,7 @@ export default function Navbar() {
               {isHomePage ? (
                 scrolled ? (
                   <Image
-                    src="/images/logo/erp_next2.png"
+                    src="/images/logo/frappe_partner.png"
                     alt="ERP Partner"
                     width={516}
                     height={420}
@@ -113,7 +121,7 @@ export default function Navbar() {
                   />
                 ) : (
                   <Image
-                    src="/images/logo/erp_next1.png"
+                    src="/images/logo/frappe_partner.png"
                     alt="ERP Partner"
                     width={516}
                     height={420}

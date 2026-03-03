@@ -80,22 +80,22 @@ export default function Navbar() {
                       priority
                     />                     
                   ) : (
-                    // <Image
-                    //   className="w-[210px] h-auto sm:w-[300px]"
-                    //   src="/images/logo/logo-white.png"
-                    //   alt="uSiS Technologies Logo"
-                    //   width={355}
-                    //   height={50}
-                    //   priority
-                    // />
                     <Image
                       className="w-[210px] h-auto sm:w-[300px]"
-                      src="/images/logo/Usis-ramadan.gif"
+                      src="/images/logo/logo-white.png"
                       alt="uSiS Technologies Logo"
-                      width={300}
+                      width={355}
                       height={50}
                       priority
                     />
+                    // <Image
+                    //   className="w-[210px] h-auto sm:w-[300px]"
+                    //   src="/images/logo/Usis-ramadan.gif"
+                    //   alt="uSiS Technologies Logo"
+                    //   width={300}
+                    //   height={50}
+                    //   priority
+                    // />
                   )
                 ) : (
                   <Image
@@ -202,7 +202,7 @@ export default function Navbar() {
                       : pathname.startsWith("/official-frappe-erpnext-partner")
                         ? "text-[#67bcdb] border-b-4 border-sky-400"
                         : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
+                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
                   >
                     Home
                   </Link>
@@ -218,7 +218,7 @@ export default function Navbar() {
                       : pathname.startsWith("/about")
                         ? "text-[#67bcdb] border-b-4 border-sky-400"
                         : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
+                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
                   >
                     About
                   </Link>
@@ -234,7 +234,7 @@ export default function Navbar() {
                       : pathname.startsWith("/service")
                         ? "text-[#67bcdb] border-b-4 border-sky-400"
                         : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
+                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
                   >
                     Services
                   </Link>
@@ -252,7 +252,7 @@ export default function Navbar() {
                         : pathname.startsWith("/industry")
                           ? "text-[#4c4a4a] border-b-4 border-transparent"
                           : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
+                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
                   >
                     Solutions
                   </Link>
@@ -324,7 +324,7 @@ export default function Navbar() {
                         : pathname.startsWith("/casestudy")
                         ? "text-[#67bcdb] border-b-4 border-sky-400"
                         : "text-[#4c4a4a]"
-                    } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
+                    } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
                   >
                     Casestudy
                   </Link>
@@ -340,7 +340,7 @@ export default function Navbar() {
                       : pathname.startsWith("/career")
                         ? "text-[#67bcdb] border-b-4 border-sky-400"
                         : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
+                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
                   >
                     Careers
                   </Link>
@@ -357,7 +357,7 @@ export default function Navbar() {
                       : pathname === "/contact"
                         ? "text-[#67bcdb] border-b-4 border-sky-400"
                         : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:py-1 hover:px-0 hover:pt-10 hover:pb-9 hover:border-b-4 hover:border-sky-400`}
+                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
                   >
                     Contact us
                   </Link>

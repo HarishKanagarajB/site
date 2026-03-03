@@ -1,6 +1,7 @@
 import AxiosInstance from "@/app/utils/axiosInstance";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 interface Expertise {
   image_name_: string;
   title: string;
@@ -21,7 +22,7 @@ interface Solution {
   };
 }
 interface PageProps {
-  params: { slug?: string[] }; 
+  params: { slug?: string[] };
 }
 
 async function getSolution(slug: string[]): Promise<Solution | null> {
@@ -39,24 +40,27 @@ async function getSolution(slug: string[]): Promise<Solution | null> {
 export default async function SolutionDetail({
   params,
 }: {
-  params: Promise<{ slug?: string[] }>;
+  params: { slug?: string[] };
 }) {
-  const { slug = [] } = await params; 
+  const { slug = [] } = await params;
+  if (slug.length === 1 && (slug[0] === "erpnext" || slug[0] === "frappe-hr")) {
+    redirect(`/product/${slug[0]}`);
+  }
   const solution = await getSolution(slug);
 
 
   if (!solution) {
-     return (
-         <div className="flex justify-center items-center min-h-screen">
-           <Image
-             className="mx-auto"
-             src="/images/banner/error-banner.png"
-             width={400}
-             height={499}
-             alt="Error 404"
-           />
-         </div>
-       );
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Image
+          className="mx-auto"
+          src="/images/banner/error-banner.png"
+          width={400}
+          height={499}
+          alt="Error 404"
+        />
+      </div>
+    );
   }
 
   return (
@@ -131,7 +135,7 @@ export async function generateStaticParams() {
     const allSolutions = res.data;
 
     return allSolutions.map((item: any) => ({
-      slug: item.slug.split("/"), 
+      slug: item.slug.split("/"),
     }));
   } catch (error) {
     return [];

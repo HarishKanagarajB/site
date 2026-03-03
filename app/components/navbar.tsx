@@ -11,7 +11,6 @@ export default function Navbar() {
   const [productOpen, setProductOpen] = useState(false);
   const productRef = useRef<HTMLLIElement | null>(null);
 
-
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -19,12 +18,10 @@ export default function Navbar() {
   const closeMenu = () => {
     setMenuOpen(false);
   };
+
   useEffect(() => {
-    function handleClickOutside(event: { target: any; }) {
-      if (
-        productRef.current &&
-        !productRef.current.contains(event.target)
-      ) {
+    function handleClickOutside(event: { target: any }) {
+      if (productRef.current && !productRef.current.contains(event.target)) {
         setProductOpen(false);
       }
     }
@@ -58,12 +55,13 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`header-container fixed w-full sm:h-[100px] h-[75px] top-0 z-30 transition-all duration-300 flex items-center justify-between ${isHomePage
-          ? scrolled
-            ? "bg-white text-[#444444] shadow-lg" // On scroll, white background and dark text for home
-            : "bg-black bg-opacity-20 text-white" // If not scrolled, black background with opacity 20 and white text for home
-          : "bg-white text-black" // For other pages, white background and black text (no scroll effect)
-          }`}
+        className={`header-container fixed w-full sm:h-[100px] h-[75px] top-0 z-30 transition-all duration-300 flex items-center justify-between ${
+          isHomePage
+            ? scrolled
+              ? "bg-white text-[#444444] shadow-lg"
+              : "bg-black bg-opacity-20 text-white"
+            : "bg-white text-black"
+        }`}
       >
         <div className="max-w-6xl container mx-auto">
           <nav className="flex flex-wrap items-center justify-between w-full sm:py-4 md:py-2 md:px-0 px-4 text-lg text-gray-700">
@@ -78,24 +76,24 @@ export default function Navbar() {
                       width={300}
                       height={50}
                       priority
-                    />                     
-                  ) : (
-                    <Image
-                      className="w-[210px] h-auto sm:w-[300px]"
-                      src="/images/logo/logo-white.png"
-                      alt="uSiS Technologies Logo"
-                      width={355}
-                      height={50}
-                      priority
                     />
+                  ) : (
                     // <Image
                     //   className="w-[210px] h-auto sm:w-[300px]"
-                    //   src="/images/logo/Usis-ramadan.gif"
+                    //   src="/images/logo/logo-white.png"
                     //   alt="uSiS Technologies Logo"
-                    //   width={300}
+                    //   width={355}
                     //   height={50}
                     //   priority
                     // />
+                    <Image
+                      className="w-[210px] h-auto sm:w-[300px]"
+                      src="/images/logo/Usis-ramadan.gif"
+                      alt="uSiS Technologies Logo"
+                      width={300}
+                      height={50}
+                      priority
+                    />
                   )
                 ) : (
                   <Image
@@ -151,12 +149,8 @@ export default function Navbar() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke={
-                    isHomePage
-                      ? scrolled
-                        ? "currentColor"
-                        : "#FFFFFF"
-                      : "#444444"
-                  } // Dark color for other pages by default
+                    isHomePage ? (scrolled ? "currentColor" : "#FFFFFF") : "#444444"
+                  }
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -171,12 +165,8 @@ export default function Navbar() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke={
-                    isHomePage
-                      ? scrolled
-                        ? "currentColor"
-                        : "#FFFFFF"
-                      : "#444444"
-                  } // Dark color for other pages by default
+                    isHomePage ? (scrolled ? "currentColor" : "#FFFFFF") : "#444444"
+                  }
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -187,22 +177,29 @@ export default function Navbar() {
               )}
             </button>
             <div
-              className={`${menuOpen ? "block" : "hidden"
-                } w-full md:flex md:items-center md:w-auto`}
+              className={`${
+                menuOpen ? "block" : "hidden"
+              } w-full md:flex md:items-center md:w-auto`}
             >
               <ul className="header-menu pt-4 text-base text-gray-700 md:flex md:justify-between md:pt-0">
+                {/* Home Link */}
                 <li>
                   <Link
                     onClick={closeMenu}
                     href="/"
-                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                      ? scrolled
-                        ? "text-[#444444] border-b-4 border-sky-400"
-                        : "md:text-white  border-b-4 border-sky-400"
-                      : pathname.startsWith("/official-frappe-erpnext-partner")
-                        ? "text-[#67bcdb] border-b-4 border-sky-400"
-                        : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 ${
+                      pathname === "/"
+                        ? isHomePage && scrolled
+                          ? "text-[#444444] border-sky-400"
+                          : isHomePage
+                          ? "md:text-white border-sky-400"
+                          : "text-[#67bcdb] border-sky-400"
+                        : isHomePage && scrolled
+                        ? "text-[#444444] border-transparent"
+                        : isHomePage
+                        ? "md:text-white border-transparent"
+                        : "text-[#4c4a4a] border-transparent"
+                    }`}
                   >
                     Home
                   </Link>
@@ -211,14 +208,19 @@ export default function Navbar() {
                   <Link
                     onClick={closeMenu}
                     href="/about"
-                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                      ? scrolled
-                        ? "text-[#444444]"
-                        : "md:text-white"
-                      : pathname.startsWith("/about")
-                        ? "text-[#67bcdb] border-b-4 border-sky-400"
-                        : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 ${
+                      pathname.startsWith("/about")
+                        ? isHomePage && scrolled
+                          ? "text-[#444444] border-sky-400"
+                          : isHomePage
+                          ? "md:text-white border-sky-400"
+                          : "text-[#67bcdb] border-sky-400"
+                        : isHomePage && scrolled
+                        ? "text-[#444444] border-transparent"
+                        : isHomePage
+                        ? "md:text-white border-transparent"
+                        : "text-[#4c4a4a] border-transparent"
+                    }`}
                   >
                     About
                   </Link>
@@ -227,14 +229,19 @@ export default function Navbar() {
                   <Link
                     onClick={closeMenu}
                     href="/services"
-                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                      ? scrolled
-                        ? "text-[#444444]"
-                        : "md:text-white"
-                      : pathname.startsWith("/service")
-                        ? "text-[#67bcdb] border-b-4 border-sky-400"
-                        : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 ${
+                      pathname.startsWith("/service")
+                        ? isHomePage && scrolled
+                          ? "text-[#444444] border-sky-400"
+                          : isHomePage
+                          ? "md:text-white border-sky-400"
+                          : "text-[#67bcdb] border-sky-400"
+                        : isHomePage && scrolled
+                        ? "text-[#444444] border-transparent"
+                        : isHomePage
+                        ? "md:text-white border-transparent"
+                        : "text-[#4c4a4a] border-transparent"
+                    }`}
                   >
                     Services
                   </Link>
@@ -243,21 +250,24 @@ export default function Navbar() {
                   <Link
                     onClick={closeMenu}
                     href="/solutions"
-                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                      ? scrolled
-                        ? "text-[#444444]"
-                        : "md:text-white"
-                      : pathname.startsWith("/solution")
-                        ? "text-[#67bcdb] border-b-4 border-sky-400"
-                        : pathname.startsWith("/industry")
-                          ? "text-[#4c4a4a] border-b-4 border-transparent"
-                          : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 ${
+                      pathname.startsWith("/solution")
+                        ? isHomePage && scrolled
+                          ? "text-[#444444] border-sky-400"
+                          : isHomePage
+                          ? "md:text-white border-sky-400"
+                          : "text-[#67bcdb] border-sky-400"
+                        : isHomePage && scrolled
+                        ? "text-[#444444] border-transparent"
+                        : isHomePage
+                        ? "md:text-white border-transparent"
+                        : "text-[#4c4a4a] border-transparent"
+                    }`}
                   >
                     Solutions
                   </Link>
                 </li>
-                <li
+                {/* <li
                   ref={productRef}
                   className="relative flex items-center"
                   onMouseEnter={() => setProductOpen(true)}
@@ -266,16 +276,19 @@ export default function Navbar() {
                   <Link
                     href="/products"
                     onClick={closeMenu}
-                    className={`font-bold text-sm py-1 px-0 sm:pt-9 sm:pb-9 mx-2 uppercase ${isHomePage
-                      ? scrolled
-                        ? "text-[#444444]"
-                        : "md:text-white"
-                      : pathname.startsWith("/products") ||
-                        pathname.startsWith("/product") ||
-                        pathname.startsWith("/product")
-                        ? "text-[#67bcdb] border-b-4 border-sky-400"
-                        : "text-[#4c4a4a]"
-                      }`}
+                    className={`font-bold text-sm py-1 px-0 sm:pt-9 sm:pb-9 mx-2 uppercase transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 ${
+                      pathname.startsWith("/products") || pathname.startsWith("/product")
+                        ? isHomePage && scrolled
+                          ? "text-[#444444] border-sky-400"
+                          : isHomePage
+                          ? "md:text-white border-sky-400"
+                          : "text-[#67bcdb] border-sky-400"
+                        : isHomePage && scrolled
+                        ? "text-[#444444] border-transparent"
+                        : isHomePage
+                        ? "md:text-white border-transparent"
+                        : "text-[#4c4a4a] border-transparent"
+                    }`}
                   >
                     Products
                   </Link>
@@ -308,63 +321,55 @@ export default function Navbar() {
                       </li>
                     </ul>
                   )}
-                </li>
-
-
-
-                {/* <li>
-                  <Link
-                    onClick={closeMenu}
-                    href="/casestudy"
-                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${
-                      isHomePage
-                        ? scrolled
-                          ? "text-[#444444]"
-                          : "md:text-white"
-                        : pathname.startsWith("/casestudy")
-                        ? "text-[#67bcdb] border-b-4 border-sky-400"
-                        : "text-[#4c4a4a]"
-                    } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
-                  >
-                    Casestudy
-                  </Link>
                 </li> */}
+
                 <li>
                   <Link
                     onClick={closeMenu}
                     href="/careers"
-                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                      ? scrolled
-                        ? "text-[#444444]"
-                        : "md:text-white"
-                      : pathname.startsWith("/career")
-                        ? "text-[#67bcdb] border-b-4 border-sky-400"
-                        : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 ${
+                      pathname.startsWith("/career")
+                        ? isHomePage && scrolled
+                          ? "text-[#444444] border-sky-400"
+                          : isHomePage
+                          ? "md:text-white border-sky-400"
+                          : "text-[#67bcdb] border-sky-400"
+                        : isHomePage && scrolled
+                        ? "text-[#444444] border-transparent"
+                        : isHomePage
+                        ? "md:text-white border-transparent"
+                        : "text-[#4c4a4a] border-transparent"
+                    }`}
                   >
                     Careers
                   </Link>
-
                 </li>
                 <li>
                   <Link
                     onClick={closeMenu}
                     href="/contact"
-                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase ${isHomePage
-                      ? scrolled
-                        ? "text-[#444444]"
-                        : "md:text-white"
-                      : pathname === "/contact"
-                        ? "text-[#67bcdb] border-b-4 border-sky-400"
-                        : "text-[#4c4a4a]"
-                      } transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 border-transparent`}
+                    className={`font-bold text-sm py-1 px-0 sm:pt-10 sm:pb-9 mx-4 block uppercase transition-colors hover:text-sky-400 hover:border-sky-400 border-b-4 ${
+                      pathname === "/contact"
+                        ? isHomePage && scrolled
+                          ? "text-[#444444] border-sky-400"
+                          : isHomePage
+                          ? "md:text-white border-sky-400"
+                          : "text-[#67bcdb] border-sky-400"
+                        : isHomePage && scrolled
+                        ? "text-[#444444] border-transparent"
+                        : isHomePage
+                        ? "md:text-white border-transparent"
+                        : "text-[#4c4a4a] border-transparent"
+                    }`}
                   >
                     Contact us
                   </Link>
                 </li>
+
                 <li className="hidden lg:block">
                   <Link
-                    href="/official-frappe-erpnext-partner"
+                    // href="/official-frappe-erpnext-partner"
+                    href=""
                     className="sm:pt-5 mx-4 block"
                   >
                     {isHomePage ? (
@@ -399,7 +404,6 @@ export default function Navbar() {
                     )}
                   </Link>
                 </li>
-
               </ul>
             </div>
           </nav>
@@ -435,7 +439,7 @@ export default function Navbar() {
             transition: color 0.3s ease;
           }
           .header-menu li a:hover {
-            color: #1d4ed8; /* Sky color */
+            color: #1d4ed8;
           }
         }
       `}</style>

@@ -2,7 +2,6 @@ import AxiosInstance from "@/app/utils/axiosInstance";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
 interface Expertise {
   image_name_: string;
   title: string;
@@ -11,7 +10,6 @@ interface Expertise {
     url: string;
   };
 }
-
 interface Solution {
   title?: {
     rendered?: string;
@@ -23,7 +21,6 @@ interface Solution {
     expertise?: Expertise[];
   };
 }
-
 interface PageProps {
   params: Promise<{ slug?: string[] }>;
 }
@@ -41,12 +38,11 @@ async function getSolution(slug: string[]): Promise<Solution | null> {
 
 export default async function SolutionDetail({ params }: PageProps) {
   const { slug = [] } = await params;
-  
   if (slug.length === 1 && (slug[0] === "erpnext" || slug[0] === "frappe-hr")) {
     redirect(`/product/${slug[0]}`);
   }
-  
   const solution = await getSolution(slug);
+
 
   if (!solution) {
     return (
@@ -127,6 +123,7 @@ export default async function SolutionDetail({ params }: PageProps) {
   );
 }
 
+
 export async function generateStaticParams() {
   try {
     const res = await AxiosInstance.get("solution-v2");
@@ -139,3 +136,5 @@ export async function generateStaticParams() {
     return [];
   }
 }
+
+
